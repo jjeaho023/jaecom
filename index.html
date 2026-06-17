@@ -85,7 +85,7 @@
     <p id="key2"></p>  
     <p id="key3"></p>
     <p id="key4"></p>
-    <button onclick="timer()">시작하기 (20초)</button>
+    <button onclick="ready()">시작하기 (20초)</button>
     <script>
         const keylist = {
             // 자음
@@ -139,8 +139,9 @@
         let errorcount = 0;
         let inputText = '';
         let cpm = 0;
-
+        let second = 3;
         let key2 = document.getElementById('key2');
+
         /**첫 실행 부분*/
         for(i=0;i<=4;i++){
             create4()
@@ -220,7 +221,24 @@
             document.getElementById('key4').innerText = randomkey;
         }
 
-        
+        function ready() {
+            let p = document.createElement('p');
+            
+            if (second === 3 ){
+                document.getElementsByTagName('button')[0].replaceWith(p);
+                
+            }
+            document.getElementsByTagName('p')[6].innerText = second + '초 후 시작';
+            second -= 1;
+            
+
+            if (second === -1){
+                timer();
+                return;
+            }
+            setTimeout(ready, 1000);
+        }
+
         function timer(){
             errorcount = 0;
             inputcount = 0;
@@ -228,12 +246,12 @@
             cpm = 0;
 
             setTimeout(timerend,20000);
-            document.getElementById('message').innerText = '시작!';
-
-            let p = document.createElement('p');
-            document.getElementsByTagName('button')[0].replaceWith(p);
-            
+            document.getElementById('message').innerText = '시작!';    
+            document.getElementsByTagName('p')[6].innerText ='시작!';       
+            document.body.style.backgroundColor = ' #f5b7b7';
         }
+
+
         function timerend(){
             alert('오타' +  errorcount + '개  타수' + cpm + '  20초간 입력수 ' + inputcount);
             errorcount = 0;
@@ -242,10 +260,12 @@
             cpm = 0;
             let button = document.createElement('button'); 
 
-            document.getElementById('message').innerText = '연습 중';                       
+            document.getElementById('message').innerText = '연습 중';       
+            document.body.style.backgroundColor = ' white';                
             document.getElementsByTagName('p')[6].replaceWith(button);            
             button.innerText = '시작하기 (20초)';
-            button.onclick = timer;
+            button.onclick = ready;
+            second = 3;
         }
  
     </script>
