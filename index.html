@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>code1</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 22px;
+
+            background-color: #f4f6f8;
+            font-family: Arial, sans-serif;
+        }
+
+        #message{
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        #key0,
+        #key1,
+        #key2,
+        #key3,
+        #key4 {
+            width: 90px;
+            height: 90px;
+            margin: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background-color: white;
+            border: 2px solid #cccccc;
+            border-radius: 16px;
+
+            font-size: 36px;
+            font-weight: normal;
+
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+            transition: 0.2s;
+        }
+
+        /* 현재 입력해야 하는 가운데 글자 */
+        #key2 {
+            width: 120px;
+            height: 120px;
+
+            border: 4px solid #222222;
+
+            font-size: 55px;
+            font-weight: bold;
+
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 가운데에서 조금 떨어진 글자 */
+        #key1,
+        #key3 {
+            opacity: 0.7;
+        }
+
+        /* 가장 바깥쪽 글자 */
+        #key0,
+        #key4 {
+            opacity: 0.4;
+            transform: scale(0.85);
+        }
+    </style>
+</head>
+<body>
+    <p id="message">연습 중</p>
+    <p id="key0"></p>
+    <p id="key1"></p>
+    <p id="key2"></p>  
+    <p id="key3"></p>
+    <p id="key4"></p>
+    <button onclick="timer()">시작하기 (20초)</button>
+    <script>
+        const keylist = {
+            // 자음
+            'ㄱ': 'r',
+            'ㄲ': 'R',
+            'ㄴ': 's',
+            'ㄷ': 'e',
+            'ㄸ': 'E',
+            'ㄹ': 'f',
+            'ㅁ': 'a',
+            'ㅂ': 'q',
+            'ㅃ': 'Q',
+            'ㅅ': 't',
+            'ㅆ': 'T',
+            'ㅇ': 'd',
+            'ㅈ': 'w',
+            'ㅉ': 'W',
+            'ㅊ': 'c',
+            'ㅋ': 'z',
+            'ㅌ': 'x',
+            'ㅍ': 'v',
+            'ㅎ': 'g',
+
+            // 기본 모음
+            'ㅏ': 'k',
+            'ㅐ': 'o',
+            'ㅒ': 'O',
+            'ㅑ': 'i',
+            'ㅓ': 'j',
+            'ㅔ': 'p',
+            'ㅖ': 'P',
+            'ㅕ': 'u',
+            'ㅗ': 'h',
+            'ㅛ': 'y',
+            'ㅜ': 'n',
+            'ㅠ': 'b',
+            'ㅡ': 'm',
+            'ㅣ': 'l',
+
+            // 이중모음
+            'ㅘ': 'hk',   // ㅗ + ㅏ
+            'ㅙ': 'ho',   // ㅗ + ㅐ
+            'ㅚ': 'hl',   // ㅗ + ㅣ
+            'ㅝ': 'nj',   // ㅜ + ㅓ
+            'ㅞ': 'np',   // ㅜ + ㅔ
+            'ㅟ': 'nl',   // ㅜ + ㅣ
+            'ㅢ': 'ml'    // ㅡ + ㅣ
+        };
+
+        let inputcount = 0;
+        let errorcount = 0;
+        let inputText = '';
+        let cpm = 0;
+
+        let key2 = document.getElementById('key2');
+        /**첫 실행 부분*/
+        for(i=0;i<=4;i++){
+            create4()
+            leftkey()   
+        }
+        create4()
+        
+        /**키 입력 시 이벤트 발생*/
+        document.addEventListener('keydown',checkkey);
+        /**쌍자음인지 이중 모음인지 검사*/
+        
+
+
+
+        /**0. 입력 수 세기 1.오타수 측정(검사) 2. 타수계산 3. 왼쪽으로 이동. 검사 후 이동해야함 */
+        function checkkey(event){
+            
+            
+            
+
+             /** Shift, Ctrl, Alt, Backspace 같은 키는 무시*/
+            if (event.key.length !== 1) {
+                return; 
+            }
+
+            /**쳐야될 수가 남았으면 저장하고 리턴*/
+           inputText += event.key; 
+            if (keylist[key2.innerText].length !== inputText.length ){
+                return
+            }
+
+            /**0. 전체입력 수 세기*/
+            inputcount += 1;
+            
+            
+
+            /**1. 오타 수 세기*/
+            if (keylist[key2.innerText] !== inputText){
+                errorcount += 1;
+            }
+
+            /**2. 타수 계산*/
+            cpm = (inputcount - errorcount)/20*60;
+
+            /**3. 왼쪽으로 이동*/
+            
+
+            
+            
+            console.log('key 값:',keylist[key2.innerText]);
+            console.log('event.key:', inputText);
+            console.log('오타수:', errorcount);
+            console.log('타수: ',cpm);
+            console.log('길이: ',keylist[key2.innerText].length)
+            inputText = '';
+            leftkey()
+            create4()
+        }
+
+        
+
+        /** 왼쪽으로 땡기는 함수*/
+        function leftkey() {
+            for (let i = 0; i < 4; i++) {
+                document.getElementById('key' + i).innerText =
+                    document.getElementById('key' + (i + 1)).innerText;
+            }
+        }
+        
+
+        /**4번키 만들기*/
+        function create4(){
+            const keys = Object.keys(keylist);
+            const randomIndex = Math.floor(Math.random() * keys.length);
+            const randomkey = keys[randomIndex];
+
+            document.getElementById('key4').innerText = randomkey;
+        }
+
+        
+        function timer(){
+            errorcount = 0;
+            inputcount = 0;
+            inputText = '';
+            cpm = 0;
+
+            setTimeout(timerend,20000);
+            document.getElementById('message').innerText = '시작!';
+
+            let p = document.createElement('p');
+            document.getElementsByTagName('button')[0].replaceWith(p);
+            
+        }
+        function timerend(){
+            alert('오타' +  errorcount + '개  타수' + cpm + '  20초간 입력수 ' + inputcount);
+            errorcount = 0;
+            inputcount = 0;
+            inputText = '';
+            cpm = 0;
+            let button = document.createElement('button'); 
+
+            document.getElementById('message').innerText = '연습 중';                       
+            document.getElementsByTagName('p')[6].replaceWith(button);            
+            button.innerText = '시작하기 (20초)';
+            button.onclick = timer;
+        }
+ 
+    </script>
+</body>
+</html>
